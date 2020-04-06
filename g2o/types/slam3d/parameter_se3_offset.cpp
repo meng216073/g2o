@@ -52,7 +52,7 @@ namespace g2o {
     // normalize the quaternion to recover numerical precision lost by storing as human readable text
     Vector4::MapType(off.data()+3).normalize();
     setOffset(internal::fromVectorQT(off));
-    return is.good();
+    return !is.fail();
   }
   
   bool ParameterSE3Offset::write(std::ostream& os) const {
@@ -106,7 +106,7 @@ namespace g2o {
   HyperGraphElementAction* CacheSE3OffsetDrawAction::operator()(HyperGraph::HyperGraphElement* element, 
                 HyperGraphElementAction::Parameters* params_){
     if (typeid(*element).name()!=_typeName)
-      return 0;
+      return nullptr;
     CacheSE3Offset* that = static_cast<CacheSE3Offset*>(element);
     refreshPropertyPtrs(params_);
     if (! _previousParams)

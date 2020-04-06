@@ -3,6 +3,8 @@ g2o - General Graph Optimization
 
 Linux: [![Build Status](https://travis-ci.org/RainerKuemmerle/g2o.svg?branch=master)](https://travis-ci.org/RainerKuemmerle/g2o)
 Windows: [![Build status](https://ci.appveyor.com/api/projects/status/9w0cpb9krc6t4nt7/branch/master?svg=true)](https://ci.appveyor.com/project/RainerKuemmerle/g2o/branch/master)
+[![Code Quality: Cpp](https://img.shields.io/lgtm/grade/cpp/g/RainerKuemmerle/g2o.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/RainerKuemmerle/g2o/context:cpp)
+[![Total Alerts](https://img.shields.io/lgtm/alerts/g/RainerKuemmerle/g2o.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/RainerKuemmerle/g2o/alerts)
 
 g2o is an open-source C++ framework for optimizing graph-based nonlinear error
 functions. g2o has been designed to be easily extensible to a wide range of
@@ -80,7 +82,7 @@ following packages.
   - libeigen3-dev
 
 #### Optional requirements
-* suitesparse       http://www.cise.ufl.edu/research/sparse/SuiteSparse/
+* suitesparse       http://faculty.cse.tamu.edu/davis/suitesparse.html
 * Qt5               http://qt-project.org
 * libQGLViewer      http://www.libqglviewer.com/
 
@@ -94,11 +96,20 @@ following packages.
 #### Mac OS X
 If using [Homebrew](http://brew.sh/), then
 
-`brew install homebrew/science/g2o`
+`brew install brewsci/science/g2o`
 
 will install g2o together with its required dependencies. In this case no manual compilation is necessary.
 
+#### Windows
+
+If using [vcpkg](https://github.com/Microsoft/vcpkg), then
+
+`scripts\install-deps-windows.bat`
+
+will build and install the required dependencies. The location of `vcpkg` and required triplet are determined by the environment variables `VCPKG_ROOT_DIR` and `VCPKG_DEFAULT_TRIPLET`.
+
 ### Compilation
+
 Our primary development platform is Linux. Experimental support for
 Mac OS X, Android and Windows (MinGW or MSVC).
 We recommend a so-called out of source build which can be achieved
@@ -111,7 +122,14 @@ by the following command sequence.
 
 The binaries will be placed in bin and the libraries in lib which
 are both located in the top-level folder.
-If you are compiling on Windows, please download Eigen3 and extract it.
+
+On Windows with `vcpkg` the following two commands will generate build scripts for Visual Studio 2017 MSVC 14 tool set:
+
+- `mkdir build`
+- `cd build`
+- `cmake -G "Visual Studio 14 2017 Win64" -DG2O_BUILD_APPS=ON -DG2O_BUILD_EXAMPLES=ON -DVCPKG_TARGET_TRIPLET="%VCPKG_DEFAULT_TRIPLET%" -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT_DIR%\scripts\buildsystems\vcpkg.cmake" ..`
+
+If you are compiling on Windows and you are for some reasons **not** using `vcpkg` please download Eigen3 and extract it.
 Within cmake-gui set the variable G2O\_EIGEN3\_INCLUDE to that directory.
 
 ### Cross-Compiling for Android
@@ -128,6 +146,7 @@ We thank the following contributors for providing patches:
 - Mark Pupilli for submitting patches to compile with MSVC.
 
 ### Projects using g2o
+- [g2opy](https://github.com/uoip/g2opy): Python binding
 - [.Net wrapper](https://github.com/fugro/g2o)
 
 ### Contact information
